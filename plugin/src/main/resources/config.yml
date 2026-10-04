@@ -1,0 +1,49 @@
+# DockerCraft: Reloaded - plugin configuration
+
+docker:
+  # Linux/macOS: unix:///var/run/docker.sock
+  # Windows:     npipe:////./pipe/docker_engine
+  # Remoto:      tcp://host:2375   (only on trusted networks!)
+  host: "unix:///var/run/docker.sock"
+
+# How often (in seconds) Docker is read (the panel is only redrawn if something changed)
+sync-interval-seconds: 5
+
+world:
+  # World where the panel is built. Empty = first normal world (recommended).
+  # A name ("world") or a key ("minecraft:overworld") also works.
+  name: ""
+  base-x: 0
+  base-y: -60            # ground height (-60 in a 1.18+ superflat world)
+  base-z: 0
+  card-spacing: 7        # spacing between containers along the X axis
+  wall-width: 7
+  wall-height: 8
+  wall-block: "BLACK_CONCRETE"
+  line-spacing: 0.30     # vertical spacing between text lines (the script's LINE_SPACING)
+  max-line-length: 0     # 0 = do not truncate long lines (like the script)
+  keep-chunks-loaded: true
+
+logs:
+  lines: 20              # lines shown by the LOGS button
+
+# Minimum milliseconds between clicks from the same player
+click-cooldown-ms: 400
+
+# true = remove the whole panel (blocks included) when the server shuts down
+clear-on-disable: false
+
+# ------------------------------------------------------------------------------
+# Docker commands: /docker ps, /docker run ..., /dc pull nginx, /dockercraft docker images
+# (also usable from the server console). Permissions: see plugin.yml
+#   dockercraft.view         ps, images, logs, inspect, network ls, volume ls, version, info
+#   dockercraft.control      start, stop, restart, kill, pause, unpause
+#   dockercraft.docker.pull  pull, rmi
+#   dockercraft.docker.run   run, exec, rm
+# ------------------------------------------------------------------------------
+commands:
+  enabled: true
+  # true  = `docker run` refuses --privileged, --cap-add, --device, --pid host,
+  #         --network host and bind mounts of host paths (-v /etc:/x). Named volumes are fine.
+  # false = anything goes. Whoever has dockercraft.docker.run can then take over the host!
+  safe-mode: true

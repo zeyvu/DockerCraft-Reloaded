@@ -1,0 +1,21 @@
+# Secrets
+config.toml
+.env
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Java / Gradle (only the build output, NOT the top-level build/ scripts folder)
+plugin/build/
+plugin/.gradle/
+build/out/
+*.jar
+!**/gradle/wrapper/gradle-wrapper.jar
+
+# IDE / OS
+.idea/
+.vscode/
+*.iml
+.DS_Store

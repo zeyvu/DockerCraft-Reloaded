@@ -1,0 +1,58 @@
+name: Plugin build
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+    paths: ["plugin/**", ".github/workflows/plugin-build.yml"]
+  pull_request:
+    paths: ["plugin/**", ".github/workflows/plugin-build.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "25"
+
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "9.8.0"
+
+      - name: Version (from the vX.Y.Z tag, if any)
+        id: ver
+        run: |
+          if [[ "${GITHUB_REF}" == refs/tags/v* ]]; then
+            echo "args=-PpluginVersion=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+          else
+            echo "args=" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build
+        working-directory: plugin
+        run: gradle --no-daemon build ${{ steps.ver.outputs.args }}
+
+      - name: Collect the final jar
+        run: |
+          mkdir -p dist
+          cp $(ls plugin/build/libs/DockerCraft-Reloaded-*.jar | grep -v -- '-plain') dist/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DockerCraft-Reloaded-plugin
+          path: dist/*.jar
+
+      - name: Publish release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*.jar
+          generate_release_notes: true

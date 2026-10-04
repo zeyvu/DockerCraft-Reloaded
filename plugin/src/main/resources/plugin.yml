@@ -1,0 +1,32 @@
+name: DockerCraft
+version: ${version}
+main: dev.dockercraft.DockerCraftPlugin
+api-version: "26.3"
+authors: [DockerCraft]
+description: "DockerCraft: Reloaded - manage Docker from inside Minecraft"
+website: https://github.com/TUUSUARIO/dockercraft-reloaded
+commands:
+  dockercraft:
+    description: "DockerCraft: Reloaded - panel commands and docker CLI (docker ps, docker run...)"
+    usage: |-
+      /dockercraft <status|rebuild|reload|help>
+      /dockercraft docker <ps|images|pull|run|start|stop|restart|rm|rmi|logs|exec|inspect|...>
+      /docker <ps|images|pull|run|...>
+    aliases: [dc, docker]
+    permission: dockercraft.view
+permissions:
+  dockercraft.view:
+    description: Use the INFO and LOGS buttons and read-only docker commands (ps, images, logs, inspect...)
+    default: true
+  dockercraft.control:
+    description: Use the START, STOP and RESTART buttons and docker start/stop/restart/kill
+    default: op
+  dockercraft.admin:
+    description: Use /dockercraft status|rebuild|reload
+    default: op
+  dockercraft.docker.pull:
+    description: docker pull / docker rmi
+    default: op
+  dockercraft.docker.run:
+    description: docker run / create / exec / rm
+    default: op

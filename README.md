@@ -151,7 +151,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock  # the docker socket
 ```
 Make sure `./data` is owned by UID 1000 (`sudo chown -R 1000:1000 ./data`).
-A [socket proxy](docs/security.md) is a safer alternative.
 
 ---
 

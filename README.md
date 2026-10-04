@@ -132,15 +132,6 @@ services:
     user: "1000:1000"
     group_add:
       - "999"                  # the socket's GID
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-
-services:
-  mc:
-    image: itzg/minecraft-server:latest
-    user: "1000:1000"
-    group_add:
-      - "999"                  # the socket's GID
     pull_policy: daily
     tty: true
     stdin_open: true
